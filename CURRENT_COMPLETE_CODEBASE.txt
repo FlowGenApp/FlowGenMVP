@@ -1,0 +1,88 @@
+# Complete Flowgen Codebase Export - Focus Group Review
+
+## Critical Files with Issues
+
+### SERVER FILES
+
+#### server/routes.ts (MAIN API LOGIC)
+- Route optimization calculations (lines 575-725)
+- OCR processing integration
+- Google Maps API calls (4 simultaneous)
+- **BROKEN**: Zero minutes bug in opposite direction calculation
+
+#### server/doordash-map-processor.ts (LOCATION RESOLUTION)
+- DoorDash screenshot interpretation
+- Google Places integration (not properly connected)
+- **BROKEN**: Has Places API service but doesn't use it
+
+#### server/places-api.ts (GOOGLE PLACES INTEGRATION)
+- Business name to address resolution
+- Multiple search strategies for franchises
+- **ISSUE**: Not integrated with main processing flow
+
+#### server/ocr-processor.ts (TEXT EXTRACTION)
+- Platform detection and text parsing
+- Data categorization and validation
+- Works but feeds into broken location resolution
+
+### FRONTEND FILES
+
+#### client/src/pages/home.tsx (MAIN USER INTERFACE)
+- Upload workflow for two screenshots
+- Recommendation display
+- Location services integration
+
+#### client/src/components/recommendation-card.tsx (RESULTS DISPLAY)
+- Shows accept/decline recommendation
+- Time estimates and route details
+- Displays results from broken backend logic
+
+### SHARED FILES
+
+#### shared/schema.ts (DATABASE STRUCTURE)
+- Offer and decision data models
+- Type definitions for API responses
+
+#### shared/types.ts (TYPE DEFINITIONS)
+- Google API response types
+- System interfaces
+
+## File Structure
+```
+server/
+├── routes.ts (API endpoints - BROKEN LOGIC)
+├── doordash-map-processor.ts (Location resolution - NOT INTEGRATED)
+├── places-api.ts (Google Places - UNUSED)
+├── ocr-processor.ts (Text extraction - WORKS)
+├── platform-detector.ts (App detection - WORKS)
+├── db.ts (Database connection)
+├── storage.ts (Data operations)
+└── index.ts (Server startup)
+
+client/src/
+├── pages/home.tsx (Main interface)
+├── components/recommendation-card.tsx (Results display)
+├── components/upload-card.tsx (File upload)
+├── components/ocr-categorizer.tsx (Data input)
+└── lib/api.ts (Frontend API calls)
+
+shared/
+├── schema.ts (Database models)
+└── types.ts (Type definitions)
+```
+
+## Dependencies
+- Google Cloud Vision API (OCR)
+- Google Places API (Location resolution)
+- Google Maps Directions API (Route calculation)
+- PostgreSQL (Data storage)
+- React/TypeScript (Frontend)
+- Express/Node.js (Backend)
+
+## Configuration Files
+- package.json (Dependencies)
+- tsconfig.json (TypeScript config)
+- vite.config.ts (Build configuration)
+- drizzle.config.ts (Database configuration)
+
+This represents the complete codebase structure with identified critical files and their specific issues.
